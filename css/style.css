@@ -1,0 +1,31 @@
+h1 {
+  text-align: center;
+}
+
+label {
+  font-size: 1.2rem;
+  margin-bottom: 1%;
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+input {
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+::placeholder {
+  text-align: center;
+}
+
+#submit {
+  size: 1rem;
+  margin: 0%;
+}

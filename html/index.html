@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario con JS</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../scripts/form.js"></script>
+  </head>
+  <body onload="prepareForm()">
+    <h1>Formulario</h1>
+    <div>
+      <form>
+        <label for="nombre" class="label">Nombre (Requerido)</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          class="input"
+          placeholder="Indique su nombre"
+        />
+        <label for="apellido_1">Primer apellido (Requerido)</label>
+        <input
+          type="text"
+          name="apellido_1"
+          id="apellido_1"
+          placeholder="Indique el primer apellido"
+        />
+        <label for="apellido_2">Segundo apellido</label>
+        <input
+          type="text"
+          name="apellido_2"
+          id="apellido_2"
+          placeholder="Introduzca su segundo apellido"
+        />
+        <label for="genero">Género (Requerido)</label>
+        <input
+          type="text"
+          name="genero"
+          id="genero"
+          placeholder="Indique su género"
+        />
+        <label for="direccion">Dirección</label>
+        <input
+          type="text"
+          name="direccion"
+          id="direccion"
+          placeholder="Indique su dirección"
+        />
+        <label for="codigo-postal">Código Postal (Requerido)</label>
+        <input
+          type="text"
+          name="codigo-postal"
+          id="codigo-postal"
+          placeholder="Introduzca su código postal"
+        />
+        <label for="dni">DNI (Requerido)</label>
+        <input
+          type="text"
+          name="dni"
+          id="dni"
+          placeholder="Indique su DNI o NIE"
+        />
+        <label for="email">Email (Requerido)</label>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder="Introduzca su email"
+        />
+
+        <label for="numero-telefono">Número de teléfono (Requerido)</label>
+        <input
+          type="text"
+          name="numero-telefono"
+          id="numero-telefono"
+          placeholder="Introduzca su número de teléfono"
+        />
+
+        <label for="birthdate">Fecha de nacimiento</label>
+        <input
+          type="text"
+          name="birthdate"
+          id="birthdate"
+          placeholder="dd/mm/yyyy"
+        />
+
+        <label for="lugar-nacimiento">Lugar de nacimiento</label>
+        <input
+          type="text"
+          name="lugar-nacimiento"
+          id="lugar-nacimiento"
+          placeholder="Indique su lugar de nacimiento"
+        />
+
+        <label for="estado-civil">Estado Civil (Requerido)</label>
+        <input
+          type="text"
+          name="estado-civil"
+          id="estado-civil"
+          placeholder="Indique su estado civil"
+        />
+
+        <br /><input type="button" value="Siguiente" id="submit" />
+      </form>
+    </div>
+  </body>
+</html>
