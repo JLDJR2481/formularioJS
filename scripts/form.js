@@ -1,9 +1,24 @@
-// Event Listener for button
+// Event Listener for button submit, password filter, automatic cardType change and checking
 function prepareForm() {
     document.querySelector('#submit').addEventListener("click", function () {
-        personalCheck();
-
+        formChecking();
     });
+
+    document.querySelector('#password').addEventListener("input", function () {
+        hidePassword();
+    });
+
+    document.querySelector('#cardNumber').addEventListener("input", function () {
+        cardType();
+    });
+}
+
+function formChecking() {
+    personalCheck();
+    corporativeCheck();
+    educationalCheck();
+    languageCheck();
+    paymentMethodCheck();
 }
 
 // Name functions
@@ -61,7 +76,7 @@ function secondSurnameCheck() {
 
 function getSecondSurname() {
     let secondSurname = document.querySelector('#apellido_2').value;
-    return secondSurname.charAt(0).toUpperCase() + secondSurnameSurname.slice(1);
+    return secondSurname.charAt(0).toUpperCase() + secondSurname.slice(1);
 }
 
 
@@ -132,6 +147,11 @@ function dniCheck() {
     }
 
     return window.alert("Los datos introducidos están incorrectos. Comprueba el DNI/NIE");
+}
+
+function getDni() {
+    let dni = document.querySelector('#dni').value.trim();
+    return dni;
 }
 
 
@@ -234,6 +254,223 @@ function birthPlaceCheck() {
     return false;
 }
 
+// Function for employee number
+function employeeCheck() {
+
+    let dni = getDni().slice(0, -1);
+
+    let employeeNumber = document.querySelector('#employeeNumber').value.trim();
+
+    if (dni == employeeNumber) {
+        return true;
+    }
+    else {
+        return window.alert("El dni y el nº de empleado no coinciden. Por favor, revísalo");
+    }
+
+}
+
+// Function for user
+function userCheck() {
+    let user = document.querySelector('#user').value.trim();
+
+    if (!user) {
+        return window.alert('No se ha introducido un usuario. Por favor, introdúcelo');
+    }
+    else {
+        return true;
+    }
+}
+
+// Function for departments
+function departmentCheck() {
+    let department = document.querySelector('#department').value.trim();
+
+    if (!department) {
+        return window.alert('Introduce el departamento, por favor');
+    }
+    else {
+        return true;
+
+    }
+}
+
+// Checking stardate not after today
+function startDateCheck() {
+
+    let startDate = document.querySelector('#start_date').value.trim();
+    let actualDate = new Date();
+    let inputDate;
+
+    if (startDate) {
+        let startDateParts = startDate.split("/");
+        if (startDateParts.length === 3) {
+            let day = parseInt(startDateParts[0]);
+            let month = parseInt(startDateParts[1]) - 1;
+            let year = parseInt(startDateParts[2]);
+
+            inputDate = new Date(year, month, day);
+        }
+    }
+
+    if (!inputDate) {
+        return window.alert('Introduce la fecha de inicio');
+    }
+
+    else if (inputDate > actualDate) {
+        return window.alert("La fecha es superior al día actual. Revisalo por favor");
+    } else {
+        return true;
+    }
+
+}
+
+
+// Hiding password while typing
+function hidePassword() {
+
+    let password = document.querySelector('#password');
+    let passwordValue = password.value;
+    let hiddenPassword = "";
+
+    for (var i = 0; i < passwordValue.length; i++) {
+        hiddenPassword += '*';
+    }
+
+    password.value = hiddenPassword;
+
+}
+
+// Checking hours is number and not bigger than 40
+function jornadaCheck() {
+    let jornadaSemanal = document.querySelector('#work_hours').value;
+
+    let jornadaRegExp = /^\d{4}$/;
+
+    if (jornadaSemanal.match(jornadaRegExp)) {
+        if (jornadaSemanal <= 40) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    else {
+        return false;
+
+    }
+}
+
+// Checking languages levels
+function languagesCheck(language) {
+    let idCheck = '#' + language;
+    let languageLevel = document.querySelector(idCheck).value.trim().toLowerCase();
+
+    let languageLevelRegExp = /^[ABC][12]/i;
+
+    if (language == "english")
+        if (!languageLevel.match(languageLevelRegExp)) {
+            languageLevel = languageLevel.charAt(0).toUpperCase() + languageLevel.slice(1);
+        } else if (languageLevel.match(languageLevelRegExp)) {
+
+        } else {
+            return window.alert('Por favor, introduce bien los datos en el lenguaje Inglés');
+        }
+    else {
+        if (!languageLevel.match(languageLevelRegExp)) {
+            languageLevel = languageLevel.charAt(0).toUpperCase() + languageLevel.slice(1);
+        } else if (languageLevel.match(languageLevelRegExp)) {
+        }
+    }
+
+
+    switch (languageLevel) {
+        case "A1":
+        case "A2":
+        case "B1":
+        case "B2":
+        case "C1":
+        case "C2":
+        case "Nativo":
+            return true;
+
+        default:
+            return false;
+    }
+
+}
+
+// Automatic change type card and blocking non-digit characters
+function cardType() {
+    let cardTypeElement = document.querySelector('#cardType');
+    let cardNumberElement = document.querySelector('#cardNumber');
+    let cardNumberValue = cardNumberElement.value;
+    let realCardNumber = "";
+
+    if (cardNumberValue.length > 0) {
+        if (/^[0-9]+$/.test(cardNumberValue)) {
+            const firstDigit = cardNumberValue[0];
+
+            if (firstDigit === "4") {
+                cardTypeElement.value = "Visa";
+            } else if (firstDigit === "5") {
+                cardTypeElement.value = "MasterCard";
+            }
+            realCardNumber += cardNumberValue;
+        }
+    } else {
+        cardTypeElement.value = "Tipo de tarjeta";
+    }
+
+    cardNumberElement.value = realCardNumber;
+}
+
+// Checking card number
+function cardNumberCheck() {
+    let cardNumber = document.querySelector('#cardNumber').value;
+
+    if (cardNumber.length == 16) {
+        return true;
+    } else {
+        return window.alert("El número de tarjeta no tiene 16 digitos");
+    }
+}
+
+// Card name validation
+function cardNameCheck() {
+    let cardName = document.querySelector('#cardName').value.trim().split(' ');
+    let name = getName().toLowerCase();
+    let firstSurname = getFirstSurname().toLowerCase();
+    let secondSurname = getSecondSurname().toLowerCase();
+    let cardNom = cardName[0].toLowerCase();
+    let cardFirstSurname = cardName[1].toLowerCase();
+
+    if (cardName.length == 3) {
+        var cardSecondSurname = cardName[2].toLowerCase();
+    }
+
+    if (cardName.length == 2) {
+
+        if (cardNom == name && cardFirstSurname == firstSurname) {
+            return true;
+        } else {
+            return window.alert("Los datos de la tarjeta y los personales no coinciden");
+        }
+
+    } else if (cardName.length == 3) {
+        if (cardNom == name && cardFirstSurname == firstSurname && cardSecondSurname == secondSurname) {
+            return true;
+        }
+        else {
+            return window.alert("Los datos de la tarjeta no coinciden con los personales");
+        }
+
+    } else {
+        return window.alert("Falta más información para verificar la tarjeta");
+    }
+}
+
+
+
 
 // Checking all personal data
 function personalCheck() {
@@ -257,9 +494,11 @@ function personalCheck() {
 
     if (nameCheckBoolean && firstSurnameCheckBoolean && genderCheckBoolean && cpCheckBoolean && dniCheckBoolean && emailCheckBoolean && telefonoCheckBoolean && civilStatusCheckBoolean) {
         if (birthDateFormat && birthPlaceCheckBoolean && secondSurnameCheckBoolean && addressCheckBoolean) {
+            getFullName();
             return true;
-
-        } else {
+            // Only if has a second surname (for card validation)
+        } else if (secondSurnameCheckBoolean) {
+            getFullName();
             return true;
 
         }
@@ -268,6 +507,60 @@ function personalCheck() {
         return window.alert("Por favor, revisa tus datos personales introducidos");
     }
 
+
 }
+
+
+// Checking all corporative data
+function corporativeCheck() {
+    let employeeCheckBoleean = employeeCheck();
+    let userCheckBoolean = userCheck();
+    let departmentCheckBoolean = departmentCheck();
+    let startDateCheckBoolean = startDateCheck();
+
+    if (employeeCheckBoleean && userCheckBoolean && departmentCheckBoolean && startDateCheckBoolean) {
+        return true;
+    }
+    else {
+        return window.alert('Revisa tus datos corporativos');
+    }
+
+}
+
+
+// // Checking education data
+// function educationCheck() {
+
+// }
+
+function languageCheck() {
+    let englishCheckBoolean = languagesCheck("english");
+
+    // Secondary checks
+    let catalanCheckBoolean = languagesCheck("catalan");
+    let castellanoCheckBoolean = languagesCheck("castellano");
+    let othersCheckBoolean = languagesCheck("others");
+
+    if (englishCheckBoolean) {
+        if (catalanCheckBoolean && castellanoCheckBoolean && othersCheckBoolean) {
+            return true;
+        } else {
+            return true;
+        }
+    } else {
+        return window.alert("Por favor, revisa tus datos de lenguaje");
+    }
+
+}
+
+function paymentMethodCheck() {
+
+    let cardNumberCheckBoolean = cardNumberCheck();
+    let cardNameCheckBoolean = cardNameCheck();
+
+}
+
+
+
 
 
