@@ -35,7 +35,6 @@ function formChecking() {
     } else {
         return false;
     }
-
 }
 
 // New page after checking
@@ -453,10 +452,15 @@ function cardType() {
 function cardNumberCheck() {
     let cardNumber = document.querySelector('#cardNumber').value;
 
-    if (cardNumber.length == 16) {
-        return true;
-    } else if (cardNumber.length >= 16 && cardNumber.length != 16) {
-        return window.alert("El número de tarjeta no tiene 16 digitos");
+
+    if (cardNumber) {
+        if (cardNumber.length == 16) {
+            return true;
+        } else if (cardNumber.length >= 16 && cardNumber.length != 16) {
+            return window.alert("El número de tarjeta no tiene 16 digitos");
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
@@ -464,35 +468,40 @@ function cardNumberCheck() {
 
 // Card name validation
 function cardNameCheck() {
-    let cardName = document.querySelector('#cardName').value.trim().split(' ');
-    let name = getName().toLowerCase();
-    let firstSurname = getFirstSurname().toLowerCase();
-    let secondSurname = getSecondSurname().toLowerCase();
-    let cardNom = cardName[0].toLowerCase();
-    let cardFirstSurname = cardName[1].toLowerCase();
+    cardNameValue = document.querySelector('#cardName').value.trim();
+    if (cardNameValue) {
+        let nombreTarjeta = cardnameValue.split(' ');
+        let name = getName().toLowerCase();
+        let firstSurname = getFirstSurname().toLowerCase();
+        let secondSurname = getSecondSurname().toLowerCase();
+        let cardNom = nombreTarjeta[0].toLowerCase();
+        let cardFirstSurname = nombreTarjeta[1].toLowerCase();
 
-    if (cardName.length == 3) {
-        var cardSecondSurname = cardName[2].toLowerCase();
-    }
+        if (nombreTarjeta.length == 3) {
+            var cardSecondSurname = nombreTarjeta[2].toLowerCase();
+        }
 
-    if (cardName.length == 2) {
+        if (card.length == 2) {
 
-        if (cardNom == name && cardFirstSurname == firstSurname) {
-            return true;
+            if (cardNom == name && cardFirstSurname == firstSurname) {
+                return true;
+            } else {
+                return window.alert("Los datos de la tarjeta y los personales no coinciden");
+            }
+
+        } else if (cardName.length == 3) {
+            if (cardNom == name && cardFirstSurname == firstSurname && cardSecondSurname == secondSurname) {
+                return true;
+            }
+            else {
+                return window.alert("Los datos de la tarjeta no coinciden con los personales");
+            }
+
         } else {
-            return window.alert("Los datos de la tarjeta y los personales no coinciden");
+            return window.alert("Falta más información para verificar la tarjeta");
         }
-
-    } else if (cardName.length == 3) {
-        if (cardNom == name && cardFirstSurname == firstSurname && cardSecondSurname == secondSurname) {
-            return true;
-        }
-        else {
-            return window.alert("Los datos de la tarjeta no coinciden con los personales");
-        }
-
     } else {
-        return window.alert("Falta más información para verificar la tarjeta");
+        return false;
     }
 }
 
@@ -501,15 +510,15 @@ function cvcCheck() {
     let cvc = document.querySelector('#cvc').value.trim();
     let cvcRegEx = /^\d{3}$/;
 
-
-    if (!cvc) {
-        return window.alert('Introduce el CVC de la tarjeta');
-    } else if (!cvc.match(cvcRegEx)) {
-        return window.alert('El CVC no es correcto, vuelve a intentarlo');
+    if (cvc) {
+        if (!cvc.match(cvcRegEx)) {
+            return window.alert('El CVC no es correcto, vuelve a intentarlo');
+        } else {
+            return true;
+        }
     } else {
-        return true;
+        return false;
     }
-
 }
 
 // Check expiration date
@@ -528,18 +537,15 @@ function expirationCheck() {
 
             inputDate = new Date(year, month, day);
         }
+
+        if (inputDate > actualDate) {
+            return true;
+        } else {
+            return window.alert("La fecha es superior al día actual. Revisalo por favor");
+        }
     }
-
-
-    if (inputDate > actualDate) {
-        return true;
-    } else {
-        return window.alert("La fecha es superior al día actual. Revisalo por favor");
-    }
-
+    return false;
 }
-
-
 
 
 // Checking all personal data
@@ -640,10 +646,14 @@ function paymentMethodCheck() {
     let expirationCheckBoolean = expirationCheck();
 
     if (cardNumberCheckBoolean && cardNameCheckBoolean) {
-        if (cvcCheckBoolean && expirationCheckBoolean)
+        if (cvcCheckBoolean && expirationCheckBoolean) {
             return true;
+        } else {
+            return window.alert("Comprueba tus datos de tarjeta");
+        }
+
     } else {
-        return window.alert("Comprueba tus datos de tarjeta");
+        return true;
     }
 
 
