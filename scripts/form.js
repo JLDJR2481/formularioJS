@@ -1,11 +1,7 @@
 // Event Listener for button submit, password filter, automatic cardType change and checking
 function prepareForm() {
     document.querySelector('#submit').addEventListener("click", function () {
-        formChecking();
-    });
-
-    document.querySelector('#password').addEventListener("input", function () {
-        hidePassword();
+        verificationPage();
     });
 
     document.querySelector('#cardNumber').addEventListener("input", function () {
@@ -13,12 +9,41 @@ function prepareForm() {
     });
 }
 
+// Prepare Password
+function preparePassword() {
+    let passwordInput = document.querySelector('#password');
+    passwordInput.type = "password";
+
+}
+
+// All checks
 function formChecking() {
-    personalCheck();
-    corporativeCheck();
-    educationalCheck();
-    languageCheck();
-    paymentMethodCheck();
+    let personalCheckBoolean = personalCheck();
+    let corporativeCheckBoolean = corporativeCheck();
+    let educationalCheckBoolean = educationalCheck();
+    let languageCheckBoolean = languageCheck();
+    let paymentMethodCheckBoolean = paymentMethodCheck();
+    let indPrefCheckBoolean = indPrefCheck();
+    let otherCheckBoolean = otherCheck();
+
+    if (personalCheckBoolean && corporativeCheckBoolean && educationalCheckBoolean && languageCheckBoolean) {
+        if (paymentMethodCheckBoolean && indPrefCheckBoolean) {
+            return true;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+
+}
+
+// New page after checking
+function verificationPage() {
+    if (formChecking()) {
+        window.location.href = "verificationPage.html";
+
+    }
 }
 
 // Name functions
@@ -326,19 +351,19 @@ function startDateCheck() {
 }
 
 
-// Hiding password while typing
-function hidePassword() {
 
-    let password = document.querySelector('#password');
-    let passwordValue = password.value;
-    let hiddenPassword = "";
+// Checking password
+function passwordCheck() {
+    let password = document.querySelector('#password').value.trim();
+    let passwordRegex = /^(?=.*[A-Z]*)(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-    for (var i = 0; i < passwordValue.length; i++) {
-        hiddenPassword += '*';
+    if (!password) {
+        return window.alert("Introduce una contraseña");
+    } else if (!password.match(passwordRegex)) {
+        return window.alert("Tu contraseña no cumple con lo necesario. Debe tener una mayúscula, una minúscula, un número y una longitud de 8 carácteres");
+    } else {
+        return true;
     }
-
-    password.value = hiddenPassword;
-
 }
 
 // Checking hours is number and not bigger than 40
@@ -430,8 +455,10 @@ function cardNumberCheck() {
 
     if (cardNumber.length == 16) {
         return true;
-    } else {
+    } else if (cardNumber.length >= 16 && cardNumber.length != 16) {
         return window.alert("El número de tarjeta no tiene 16 digitos");
+    } else {
+        return false;
     }
 }
 
@@ -467,6 +494,49 @@ function cardNameCheck() {
     } else {
         return window.alert("Falta más información para verificar la tarjeta");
     }
+}
+
+// CVC validation
+function cvcCheck() {
+    let cvc = document.querySelector('#cvc').value.trim();
+    let cvcRegEx = /^\d{3}$/;
+
+
+    if (!cvc) {
+        return window.alert('Introduce el CVC de la tarjeta');
+    } else if (!cvc.match(cvcRegEx)) {
+        return window.alert('El CVC no es correcto, vuelve a intentarlo');
+    } else {
+        return true;
+    }
+
+}
+
+// Check expiration date
+function expirationCheck() {
+    let expirationDate = document.querySelector('#expirationDate').value.trim();
+
+    let actualDate = new Date();
+    let inputDate;
+
+    if (expirationDate) {
+        let expirationDateParts = expirationDate.split("/");
+        if (startDateParts.length === 3) {
+            let day = parseInt(expirationDateParts[0]);
+            let month = parseInt(expirationDateParts[1]) - 1;
+            let year = parseInt(expirationDateParts[2]);
+
+            inputDate = new Date(year, month, day);
+        }
+    }
+
+
+    if (inputDate > actualDate) {
+        return true;
+    } else {
+        return window.alert("La fecha es superior al día actual. Revisalo por favor");
+    }
+
 }
 
 
@@ -517,8 +587,9 @@ function corporativeCheck() {
     let userCheckBoolean = userCheck();
     let departmentCheckBoolean = departmentCheck();
     let startDateCheckBoolean = startDateCheck();
+    let passwordCheckBoolean = passwordCheck();
 
-    if (employeeCheckBoleean && userCheckBoolean && departmentCheckBoolean && startDateCheckBoolean) {
+    if (employeeCheckBoleean && userCheckBoolean && departmentCheckBoolean && startDateCheckBoolean && passwordCheckBoolean) {
         return true;
     }
     else {
@@ -528,11 +599,18 @@ function corporativeCheck() {
 }
 
 
-// // Checking education data
-// function educationCheck() {
+// Checking education data
+function educationCheck() {
+    let educationLevel = document.querySelector('#education_level').value.trim();
 
-// }
+    if (!educationLevel) {
+        return window.alert('Introduce los estudios más elevados que tengas');
+    } else {
+        return true;
+    }
+}
 
+// Checking language data
 function languageCheck() {
     let englishCheckBoolean = languagesCheck("english");
 
@@ -553,14 +631,22 @@ function languageCheck() {
 
 }
 
+// Checking payment data
 function paymentMethodCheck() {
 
     let cardNumberCheckBoolean = cardNumberCheck();
     let cardNameCheckBoolean = cardNameCheck();
+    let cvcCheckBoolean = cvcCheck();
+    let expirationCheckBoolean = expirationCheck();
+
+    if (cardNumberCheckBoolean && cardNameCheckBoolean) {
+        if (cvcCheckBoolean && expirationCheckBoolean)
+            return true;
+    } else {
+        return window.alert("Comprueba tus datos de tarjeta");
+    }
+
+
 
 }
-
-
-
-
 
