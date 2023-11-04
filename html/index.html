@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/style.css" />
     <script src="../scripts/form.js"></script>
   </head>
-  <body onload="prepareForm()">
+  <body onload="prepareForm(), preparePassword()">
     <h1>Formulario</h1>
     <div>
       <form>
@@ -217,9 +217,14 @@
             placeholder="Nº de tarjeta"
           />
           <label for="cvc">CVC</label>
-          <input type="text" name="cvc" id="cvc" placeholder="cvc" />
+          <input type="text" name="cvc" id="cvc" placeholder="CVC" />
           <label for="expirationDate">Fecha de expiración</label>
-          <input type="text" name="expirationDate" id="expirationDate" />
+          <input
+            type="text"
+            name="expirationDate"
+            id="expirationDate"
+            placeholder="Fecha de caducidad"
+          />
         </div>
         <div>
           <h3>Personal preferences</h3>
