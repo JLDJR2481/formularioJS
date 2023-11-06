@@ -20,14 +20,12 @@ function preparePassword() {
 function formChecking() {
     let personalCheckBoolean = personalCheck();
     let corporativeCheckBoolean = corporativeCheck();
-    let educationalCheckBoolean = educationalCheck();
+    let educationalCheckBoolean = educationCheck();
     let languageCheckBoolean = languageCheck();
     let paymentMethodCheckBoolean = paymentMethodCheck();
-    let indPrefCheckBoolean = indPrefCheck();
-    let otherCheckBoolean = otherCheck();
 
     if (personalCheckBoolean && corporativeCheckBoolean && educationalCheckBoolean && languageCheckBoolean) {
-        if (paymentMethodCheckBoolean && indPrefCheckBoolean) {
+        if (paymentMethodCheckBoolean) {
             return true;
         } else {
             return true;
@@ -349,8 +347,6 @@ function startDateCheck() {
 
 }
 
-
-
 // Checking password
 function passwordCheck() {
     let password = document.querySelector('#password').value.trim();
@@ -387,7 +383,7 @@ function jornadaCheck() {
 // Checking languages levels
 function languagesCheck(language) {
     let idCheck = '#' + language;
-    let languageLevel = document.querySelector(idCheck).value.trim().toLowerCase();
+    let languageLevel = document.querySelector(idCheck).value.trim();
 
     let languageLevelRegExp = /^[ABC][12]/i;
 
@@ -470,7 +466,7 @@ function cardNumberCheck() {
 function cardNameCheck() {
     cardNameValue = document.querySelector('#cardName').value.trim();
     if (cardNameValue) {
-        let nombreTarjeta = cardnameValue.split(' ');
+        let nombreTarjeta = cardNameValue.split(' ');
         let name = getName().toLowerCase();
         let firstSurname = getFirstSurname().toLowerCase();
         let secondSurname = getSecondSurname().toLowerCase();
@@ -481,7 +477,7 @@ function cardNameCheck() {
             var cardSecondSurname = nombreTarjeta[2].toLowerCase();
         }
 
-        if (card.length == 2) {
+        if (nombreTarjeta.length == 2) {
 
             if (cardNom == name && cardFirstSurname == firstSurname) {
                 return true;
@@ -489,7 +485,7 @@ function cardNameCheck() {
                 return window.alert("Los datos de la tarjeta y los personales no coinciden");
             }
 
-        } else if (cardName.length == 3) {
+        } else if (nombreTarjeta.length == 3) {
             if (cardNom == name && cardFirstSurname == firstSurname && cardSecondSurname == secondSurname) {
                 return true;
             }
@@ -530,7 +526,7 @@ function expirationCheck() {
 
     if (expirationDate) {
         let expirationDateParts = expirationDate.split("/");
-        if (startDateParts.length === 3) {
+        if (expirationDateParts.length === 3) {
             let day = parseInt(expirationDateParts[0]);
             let month = parseInt(expirationDateParts[1]) - 1;
             let year = parseInt(expirationDateParts[2]);
@@ -570,19 +566,19 @@ function personalCheck() {
 
     if (nameCheckBoolean && firstSurnameCheckBoolean && genderCheckBoolean && cpCheckBoolean && dniCheckBoolean && emailCheckBoolean && telefonoCheckBoolean && civilStatusCheckBoolean) {
         if (birthDateFormat && birthPlaceCheckBoolean && secondSurnameCheckBoolean && addressCheckBoolean) {
-            getFullName();
             return true;
             // Only if has a second surname (for card validation)
         } else if (secondSurnameCheckBoolean) {
-            getFullName();
             return true;
 
+        }
+        else {
+            return true;
         }
     }
     else {
         return window.alert("Por favor, revisa tus datos personales introducidos");
     }
-
 
 }
 
@@ -659,4 +655,5 @@ function paymentMethodCheck() {
 
 
 }
+
 
