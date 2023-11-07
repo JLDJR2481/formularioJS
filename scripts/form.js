@@ -369,18 +369,20 @@ function passwordCheck() {
 function jornadaCheck() {
     let jornadaSemanal = document.querySelector('#work_hours').value;
 
-    let jornadaRegExp = /^\d{4}$/;
+    let jornadaRegExp = /^\d{2}$/;
 
-    if (jornadaSemanal.match(jornadaRegExp)) {
-        if (jornadaSemanal <= 40) {
-            return true;
+    if (jornadaSemanal) {
+        if (jornadaSemanal.match(jornadaRegExp)) {
+            if (parseInt(jornadaSemanal) <= 40) {
+                return true;
+            } else {
+                return window.alert("La jornada semanal no puede ser mayor de 40h");
+            }
         } else {
-            return false;
+            return window.alert("Los datos introducidos en la jornada semanal no son correctos. Por favor, compruebelo.");
         }
-    }
-    else {
+    } else {
         return false;
-
     }
 }
 
@@ -610,8 +612,9 @@ function corporativeCheck() {
     let departmentCheckBoolean = departmentCheck();
     let startDateCheckBoolean = startDateCheck();
     let passwordCheckBoolean = passwordCheck();
+    let jornadaCheckBoolean = jornadaCheck();
 
-    if (employeeCheckBoleean && userCheckBoolean && departmentCheckBoolean && startDateCheckBoolean && passwordCheckBoolean) {
+    if (employeeCheckBoleean && userCheckBoolean && departmentCheckBoolean && startDateCheckBoolean && passwordCheckBoolean && jornadaCheckBoolean) {
         return true;
     }
     else {
@@ -661,14 +664,15 @@ function paymentMethodCheck() {
     let cvcCheckBoolean = cvcCheck();
     let expirationCheckBoolean = expirationCheck();
 
-    if (cardNumberCheckBoolean && cardNameCheckBoolean) {
-        if (cvcCheckBoolean && expirationCheckBoolean) {
+    if (cardNumberCheckBoolean) {
+        if (cardNameCheckBoolean && cvcCheckBoolean && expirationCheckBoolean) {
             return true;
         } else {
             return window.alert("Comprueba tus datos de tarjeta");
         }
+    }
 
-    } else {
+    else {
         return true;
     }
 
