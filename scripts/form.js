@@ -7,6 +7,10 @@ function prepareForm() {
     document.querySelector('#cardNumber').addEventListener("input", function () {
         cardType();
     });
+
+    document.querySelector('#cvc').addEventListener("input", function () {
+        cvcBlock();
+    });
 }
 
 // Prepare Password
@@ -276,7 +280,7 @@ function birthPlaceCheck() {
     return false;
 }
 
-// Function for employee number
+// Function for employee number. Employee number must be DNI without final letter
 function employeeCheck() {
 
     let dni = getDni().slice(0, -1);
@@ -517,6 +521,22 @@ function cvcCheck() {
     }
 }
 
+// Blocking non-digit characters in CVC
+function cvcBlock() {
+    let cvcElement = document.querySelector('#cvc');
+    let cvcElementValue = cvcElement.value;
+    let realCvc = "";
+
+    if (cvcElementValue.length > 0) {
+        if (/^[0-9]+$/.test(cvcElementValue)) {
+            realCvc += cvcElementValue;
+        }
+    }
+
+    cvcElement.value = realCvc;
+
+}
+
 // Check expiration date
 function expirationCheck() {
     let expirationDate = document.querySelector('#expirationDate').value.trim();
@@ -537,7 +557,7 @@ function expirationCheck() {
         if (inputDate > actualDate) {
             return true;
         } else {
-            return window.alert("La fecha es superior al día actual. Revisalo por favor");
+            return window.alert("La tarjeta ha caducado. Revisalo, por favor");
         }
     }
     return false;
