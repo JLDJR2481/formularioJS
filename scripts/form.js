@@ -42,8 +42,7 @@ function formChecking() {
 // New page after checking
 function verificationPage() {
     if (formChecking()) {
-        window.location.href = "verificationPage.html";
-
+        window.location.href = "html/verificationPage.html";
     }
 }
 
