@@ -13,7 +13,7 @@ function prepareForm() {
     });
 
     document.querySelector('#color').addEventListener("input", function () {
-        colorChangeandCheck();
+        colorChange();
 
     });
 }
@@ -32,14 +32,13 @@ function formChecking() {
     let educationalCheckBoolean = educationCheck();
     let languageCheckBoolean = languageCheck();
     let paymentMethodCheckBoolean = paymentMethodCheck();
+    let colorCheckBoolean = colorCheck();
 
-    if (personalCheckBoolean && corporativeCheckBoolean && educationalCheckBoolean && languageCheckBoolean) {
-        if (paymentMethodCheckBoolean) {
-            return true;
-        } else {
-            return true;
-        }
-    } else {
+    if (personalCheckBoolean && corporativeCheckBoolean && educationalCheckBoolean && languageCheckBoolean && paymentMethodCheckBoolean && colorCheckBoolean) {
+        return true;
+    }
+
+    else {
         return false;
     }
 }
@@ -369,24 +368,6 @@ function passwordCheck() {
     }
 }
 
-function colorChangeandCheck() {
-    let color = document.querySelector('#color').value.trim();
-    let colorRegex = /^[0-9a-f]{6}$/i;
-    if (color) {
-        if (color.match(colorRegex)) {
-            document.body.style.color = '#' + color;
-
-            if (color == "ffffff") {
-                document.body.style.backgroundColor = "#000000";
-            }
-        }
-        else {
-            document.body.style.color = "#000000";
-            document.body.style.backgroundColor = "#ffffff";
-        }
-    }
-}
-
 // Checking hours is number and not bigger than 40
 function jornadaCheck() {
     let jornadaSemanal = document.querySelector('#work_hours').value;
@@ -702,3 +683,38 @@ function paymentMethodCheck() {
 
 }
 
+// Color change
+function colorChange() {
+    let color = document.querySelector('#color').value.trim();
+    let colorRegex = /^[0-9a-f]{6}$/i;
+    if (color) {
+        if (color.match(colorRegex)) {
+            document.body.style.color = '#' + color;
+
+            if (color == "ffffff") {
+                document.body.style.backgroundColor = "#000000";
+            }
+        }
+        else {
+            document.body.style.color = "#000000";
+            document.body.style.backgroundColor = "#ffffff";
+        }
+    }
+}
+
+// color check
+function colorCheck() {
+    let color = document.querySelector('#color').value.trim();
+
+    if (color) {
+        if (color.length == 6) {
+            return true;
+        }
+        else if (color.length != 6) {
+            return window.alert("Los datos en color no son correctos");
+        }
+    }
+    else {
+        return true;
+    }
+}
