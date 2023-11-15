@@ -11,6 +11,11 @@ function prepareForm() {
     document.querySelector('#cvc').addEventListener("input", function () {
         cvcBlock();
     });
+
+    document.querySelector('#color').addEventListener("input", function () {
+        colorChangeandCheck();
+
+    });
 }
 
 // Prepare Password
@@ -364,6 +369,24 @@ function passwordCheck() {
     }
 }
 
+function colorChangeandCheck() {
+    let color = document.querySelector('#color').value.trim();
+    let colorRegex = /^[0-9a-f]{6}$/i;
+    if (color) {
+        if (color.match(colorRegex)) {
+            document.body.style.color = '#' + color;
+
+            if (color == "ffffff") {
+                document.body.style.backgroundColor = "#000000";
+            }
+        }
+        else {
+            document.body.style.color = "#000000";
+            document.body.style.backgroundColor = "#ffffff";
+        }
+    }
+}
+
 // Checking hours is number and not bigger than 40
 function jornadaCheck() {
     let jornadaSemanal = document.querySelector('#work_hours').value;
@@ -678,5 +701,4 @@ function paymentMethodCheck() {
 
 
 }
-
 
